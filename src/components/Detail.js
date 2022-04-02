@@ -3,60 +3,63 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import db from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import useFetch from '../hook/useFetch';
+import API_KEY from '../api-key';
 
-function Detail() {
+const Detail = (props) => {
   const { id } = useParams();
-  const [detailData, setDetailData] = useState({});
+  const {movieData, fetchMovieData} = useFetch();
+
+  const fetchUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
+  const baseUrl = 'https://image.tmdb.org/t/p/original';
 
   useEffect(() => {
-    const fetchMovieDetail = async () => {
-      const docRef = doc(db, 'movies', id);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        setDetailData(docSnap.data());
-      } else {
-        console.log('no movies collection or movie document in firebase 🔥');
-      }
-    };
-    fetchMovieDetail();
-  }, [id]);
-
+    fetchMovieData(fetchUrl);
+}, [fetchMovieData, fetchUrl]);
   return (
     <Container>
-      <Background>
-        <img alt={detailData.title} src={detailData.backgroundImg} />
-      </Background>
+      {movieData && (
+        <>
+        <Background>
+          <img
+            alt={movieData.title}
+            src={`${baseUrl}${movieData.backdrop_path}`}
+          />
+        </Background>
 
-      <ImageTitle>
-        <img alt={detailData.title} src={detailData.titleImg} />
-      </ImageTitle>
-      <ContentMeta>
-        <Controls>
-          <Player>
-            <img src='/images/play-icon-black.png' alt='' />
-            <span>Play</span>
-          </Player>
-          <Trailer>
-            <img src='/images/play-icon-white.png' alt='' />
-            <span>Trailer</span>
-          </Trailer>
-          <AddList>
-            <span />
-            <span />
-          </AddList>
-          <GroupWatch>
-            <div>
-              <img src='/images/group-icon.png' alt='' />
-            </div>
-          </GroupWatch>
-        </Controls>
-        <SubTitle>{detailData.subTitle}</SubTitle>
-        <Description>{detailData.description}</Description>
-      </ContentMeta>
+        <ImageTitle>
+          <p>{movieData.title}</p>
+        </ImageTitle>
+        <ContentMeta>
+          <Controls>
+            <Player>
+              <img src='/images/play-icon-black.png' alt='' />
+              <span>Play</span>
+            </Player>
+            <Trailer>
+              <img src='/images/play-icon-white.png' alt='' />
+              <span>Trailer</span>
+            </Trailer>
+            <AddList>
+              <span />
+              <span />
+            </AddList>
+            <GroupWatch>
+              <div>
+                <img src='/images/group-icon.png' alt='' />
+              </div>
+            </GroupWatch>
+          </Controls>
+          <SubTitle>
+            {movieData.release_date}&nbsp;&nbsp; • &nbsp;&nbsp;{movieData.runtime} min&nbsp;&nbsp; • &nbsp;&nbsp;{movieData.genres.map((gen) => gen.name).join(', ')}
+          </SubTitle>
+          <Description>{movieData.overview}</Description>
+        </ContentMeta>
+      </>
+      )}
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   position: relative;
@@ -69,7 +72,7 @@ const Container = styled.div`
 
 const Background = styled.div`
   left: 0px;
-  opacity: 0.8;
+  opacity: 0.5;
   position: fixed;
   right: 0px;
   top: 0px;
@@ -78,6 +81,7 @@ const Background = styled.div`
   img {
     width: 100vw;
     height: 100vh;
+    object-fit: cover;
 
     @media (max-width: 768px) {
       width: initial;
@@ -86,20 +90,20 @@ const Background = styled.div`
 `;
 
 const ImageTitle = styled.div`
-  align-items: flex-end;
-  display: flex;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
-  margin: 0px auto;
-  height: 30vw;
-  min-height: 170px;
-  padding-bottom: 24px;
-  width: 100%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 50%;
+  font-size: 5rem;
+  font-weight: bold;
 
   img {
     max-width: 600px;
     min-width: 200px;
     width: 35vw;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -116,10 +120,11 @@ const Controls = styled.div`
 `;
 
 const Player = styled.button`
-  font-size: 15px;
+  font-size: 1rem;
+  font-weight: bold;
   margin: 0px 22px 0px 0px;
-  padding: 0px 24px;
-  height: 56px;
+  padding: 0px 20px;
+  height: 50px;
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -128,16 +133,17 @@ const Player = styled.button`
   letter-spacing: 1.8px;
   text-align: center;
   text-transform: uppercase;
-  background: rgb (249, 249, 249);
+  background: rgb(255, 255, 255);
   border: none;
   color: rgb(0, 0, 0);
+  transition: all 250ms ease-out;
 
   img {
     width: 32px;
   }
 
   &:hover {
-    background: rgb(198, 198, 198);
+    background: rgb(220, 220, 220);
   }
 
   @media (max-width: 768px) {
@@ -153,9 +159,13 @@ const Player = styled.button`
 `;
 
 const Trailer = styled(Player)`
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgb(249, 249, 249);
-  color: rgb(249, 249, 249);
+  background: rgba(0, 0, 0, 0.6);
+  color: rgb(255, 255, 255);
+  transition: all 250ms ease-out;
+
+  &:hover {
+    background: rgba(0, 0, 0);
+  }
 `;
 
 const AddList = styled.div`
@@ -165,13 +175,13 @@ const AddList = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0);
   border-radius: 50%;
-  border: 2px solid white;
+  border: 3px solid white;
   cursor: pointer;
 
   span {
-    background-color: rgb(249, 249, 249);
+    background-color: rgb(255, 255, 255);
     display: inline-block;
 
     &:first-child {
@@ -211,7 +221,7 @@ const GroupWatch = styled.div`
 `;
 
 const SubTitle = styled.div`
-  color: rgb(249, 249, 249);
+  color: rgb(255, 255, 255);
   font-size: 15px;
   min-height: 20px;
 
@@ -224,7 +234,8 @@ const Description = styled.div`
   line-height: 1.4;
   font-size: 20px;
   padding: 16px 0px;
-  color: rgb(249, 249, 249);
+  color: rgb(255, 255, 255);
+  margin-bottom: 50px;
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -232,3 +243,48 @@ const Description = styled.div`
 `;
 
 export default Detail;
+
+
+/*
+
+<>
+          <Background>
+            <img
+              alt={movieData.title}
+              src={`${baseUrl}${movieData.backdrop_path}`}
+            />
+          </Background>
+
+          <ImageTitle>
+            <p>{movieData.title}</p>
+          </ImageTitle>
+          <ContentMeta>
+            <Controls>
+              <Player>
+                <img src='/images/play-icon-black.png' alt='' />
+                <span>Play</span>
+              </Player>
+              <Trailer>
+                <img src='/images/play-icon-white.png' alt='' />
+                <span>Trailer</span>
+              </Trailer>
+              <AddList>
+                <span />
+                <span />
+              </AddList>
+              <GroupWatch>
+                <div>
+                  <img src='/images/group-icon.png' alt='' />
+                </div>
+              </GroupWatch>
+            </Controls>
+            <SubTitle>
+              {movieData.release_date} • {movieData.vote_average} •{' '}
+              {movieData.runtime} •{' '}
+              {movieData.genre.map((gen) => gen.name).join(', ')}{' '}
+            </SubTitle>
+            <Description>{movieData.overview}</Description>
+          </ContentMeta>
+        </>
+
+        */

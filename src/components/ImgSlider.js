@@ -2,8 +2,12 @@ import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import useFetch from '../hook/useFetch';
+import { useEffect } from 'react';
 
-const ImgSlider = (props) => {
+const ImgSlider = ({title, fetchUrl}) => {
+
+  const base_url = "https://image.tmdb.org/t/p/original"
   let settings = {
     dots: true,
     infinite: true,
@@ -12,37 +16,31 @@ const ImgSlider = (props) => {
     slidesToScroll: 1,
     autoplay: true,
   };
+
+  const {movieData, fetchMovieData} = useFetch();
+
+  useEffect(() => {
+    fetchMovieData(fetchUrl);
+  }, [fetchMovieData, fetchUrl])
+
+  
   return (
     <Carousel {...settings}>
-      <Wrap>
-        <a>
-          <img src='/images/slider-badging.jpg' alt='' />
-        </a>
-      </Wrap>
+      {movieData && movieData.splice(0, 5).map(movie => {
+        return (
+          <Wrap key={movie.id}>
+            <p>{movie.title}</p>
+            <img src={`${base_url}${movie.backdrop_path}`} alt={movie.title} />
+        </Wrap>
+        )
+      })}
 
-      <Wrap>
-        <a>
-          <img src='/images/slider-scale.jpg' alt='' />
-        </a>
-      </Wrap>
-
-      <Wrap>
-        <a>
-          <img src='/images/slider-badag.jpg' alt='' />
-        </a>
-      </Wrap>
-
-      <Wrap>
-        <a>
-          <img src='/images/slider-scales.jpg' alt='' />
-        </a>
-      </Wrap>
     </Carousel>
   );
 };
 
 const Carousel = styled(Slider)`
-  margin-top: 20px;
+  margin-bottom: 50px;
 
   & > button {
     opacity: 0;
@@ -57,14 +55,7 @@ const Carousel = styled(Slider)`
   }
 
   ul li button {
-    &:before {
-      font-size: 10px;
-      color: rgb(150, 158, 171);
-    }
-  }
-
-  li.slick-active button:before {
-    color: white;
+    display:none;
   }
 
   .slick-list {
@@ -72,39 +63,42 @@ const Carousel = styled(Slider)`
   }
 
   .slick-prev {
-    left: -75px;
+    left: -5%;
   }
 
   .slick-next {
-    right: -75px;
+    right: -5%;
   }
 `;
 
 const Wrap = styled.div`
   border-radius: 4px;
   cursor: pointer;
+  height: calc(100vh - 70px);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
+  rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+  cursor: pointer;
   position: relative;
-
-  a {
-    border-radius: 4px;
-    box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
-      rgb(0 0 0 / 73%) 0px 16px 10px -10px;
-    cursor: pointer;
-    display: block;
-    position: relative;
-    padding: 4px;
-
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
 
-    &:hover {
-      padding: 0;
-      border: 4px solid rgba(249, 249, 249, 0.8);
-      transition-duration: 300ms;
+    p {
+      position: absolute;
+      top: 20%;
+      left: 5%;
+      font-size: 15vh;
+      max-width: 50%;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      color: white;
+      padding: 10px;
     }
-  }
+  
 `;
 
 export default ImgSlider;
