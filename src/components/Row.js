@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectNewDisney } from '../features/movie/movieSlice';
 import useFetch from '../hook/useFetch';
 
-const Row = ({title, fetchUrl}) => {
-    const base_url = "https://image.tmdb.org/t/p/original"
-    const {movieData, fetchMovieData} = useFetch();
+const Row = ({ title, fetchUrl }) => {
+  const base_url = 'https://image.tmdb.org/t/p/original';
+  const { movieData, fetchMovieData } = useFetch();
 
-    useEffect(() => {
-        fetchMovieData(fetchUrl);
-    }, [fetchMovieData, fetchUrl]);
+  useEffect(() => {
+    fetchMovieData(fetchUrl);
+  }, [fetchMovieData, fetchUrl]);
 
   return (
     <Container>
@@ -35,15 +33,15 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-    display: flex;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    margin-top: 20px;
-    margin-bottom: 40px;
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  margin-top: 20px;
+  margin-bottom: 40px;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Wrap = styled.div`

@@ -1,61 +1,61 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import db from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
 import useFetch from '../hook/useFetch';
 import API_KEY from '../api-key';
 
 const Detail = (props) => {
   const { id } = useParams();
-  const {movieData, fetchMovieData} = useFetch();
+  const { movieData, fetchMovieData } = useFetch();
 
   const fetchUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
   const baseUrl = 'https://image.tmdb.org/t/p/original';
 
   useEffect(() => {
     fetchMovieData(fetchUrl);
-}, [fetchMovieData, fetchUrl]);
+  }, [fetchMovieData, fetchUrl]);
   return (
     <Container>
       {movieData && (
         <>
-        <Background>
-          <img
-            alt={movieData.title}
-            src={`${baseUrl}${movieData.backdrop_path}`}
-          />
-        </Background>
+          <Background>
+            <img
+              alt={movieData.title}
+              src={`${baseUrl}${movieData.backdrop_path}`}
+            />
+          </Background>
 
-        <ImageTitle>
-          <p>{movieData.title}</p>
-        </ImageTitle>
-        <ContentMeta>
-          <Controls>
-            <Player>
-              <img src='/images/play-icon-black.png' alt='' />
-              <span>Play</span>
-            </Player>
-            <Trailer>
-              <img src='/images/play-icon-white.png' alt='' />
-              <span>Trailer</span>
-            </Trailer>
-            <AddList>
-              <span />
-              <span />
-            </AddList>
-            <GroupWatch>
-              <div>
-                <img src='/images/group-icon.png' alt='' />
-              </div>
-            </GroupWatch>
-          </Controls>
-          <SubTitle>
-            {movieData.release_date}&nbsp;&nbsp; • &nbsp;&nbsp;{movieData.runtime} min&nbsp;&nbsp; • &nbsp;&nbsp;{movieData.genres.map((gen) => gen.name).join(', ')}
-          </SubTitle>
-          <Description>{movieData.overview}</Description>
-        </ContentMeta>
-      </>
+          <ImageTitle>
+            <p>{movieData.title}</p>
+          </ImageTitle>
+          <ContentMeta>
+            <Controls>
+              <Player>
+                <img src='/images/play-icon-black.png' alt='' />
+                <span>Play</span>
+              </Player>
+              <Trailer>
+                <img src='/images/play-icon-white.png' alt='' />
+                <span>Trailer</span>
+              </Trailer>
+              <AddList>
+                <span />
+                <span />
+              </AddList>
+              <GroupWatch>
+                <div>
+                  <img src='/images/group-icon.png' alt='' />
+                </div>
+              </GroupWatch>
+            </Controls>
+            <SubTitle>
+              {movieData.release_date}&nbsp;&nbsp; • &nbsp;&nbsp;
+              {movieData.runtime} min&nbsp;&nbsp; • &nbsp;&nbsp;
+              {movieData.genres.map((gen) => gen.name).join(', ')}
+            </SubTitle>
+            <Description>{movieData.overview}</Description>
+          </ContentMeta>
+        </>
       )}
     </Container>
   );
@@ -243,7 +243,6 @@ const Description = styled.div`
 `;
 
 export default Detail;
-
 
 /*
 

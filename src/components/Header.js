@@ -6,6 +6,7 @@ import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth, provider } from '../firebase';
 import {
   selectUserName,
+  selectUserToken,
   selectUserPhoto,
   setUserLoginDetails,
   setSignOutState,
@@ -15,6 +16,7 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
   const userName = useSelector(selectUserName);
+  const userToken = useSelector(selectUserToken);
   const userPhoto = useSelector(selectUserPhoto);
 
   useEffect(() => {
@@ -24,10 +26,10 @@ function Header() {
         history.push('/home');
       }
     });
-  }, [userName]);
+  }, [userToken]);
 
   const handleAuth = () => {
-    if (!userName) {
+    if (!userToken) {
       signInWithPopup(auth, provider)
         .then((result) => {
           setUser(result.user);
@@ -36,7 +38,7 @@ function Header() {
         .catch((error) => {
           alert(error.message);
         });
-    } else if (userName) {
+    } else if (userToken) {
       signOut(auth)
         .then(() => {
           dispatch(setSignOutState());
@@ -52,7 +54,7 @@ function Header() {
     dispatch(
       setUserLoginDetails({
         name: user.displayName,
-        email: user.email,
+        token: user.accessToken,
         photo: user.photoURL,
       })
     );
@@ -64,7 +66,7 @@ function Header() {
         <img src='/images/logo.svg' alt='Disney+' />
       </Logo>
 
-      {!userName ? (
+      {!userToken ? (
         <Login onClick={handleAuth}>Login</Login>
       ) : (
         <>

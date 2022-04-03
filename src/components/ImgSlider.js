@@ -5,9 +5,8 @@ import Slider from 'react-slick';
 import useFetch from '../hook/useFetch';
 import { useEffect } from 'react';
 
-const ImgSlider = ({title, fetchUrl}) => {
-
-  const base_url = "https://image.tmdb.org/t/p/original"
+const ImgSlider = ({ title, fetchUrl }) => {
+  const base_url = 'https://image.tmdb.org/t/p/original';
   let settings = {
     dots: true,
     infinite: true,
@@ -17,24 +16,26 @@ const ImgSlider = ({title, fetchUrl}) => {
     autoplay: true,
   };
 
-  const {movieData, fetchMovieData} = useFetch();
+  const { movieData, fetchMovieData } = useFetch();
 
   useEffect(() => {
     fetchMovieData(fetchUrl);
-  }, [fetchMovieData, fetchUrl])
+  }, [fetchMovieData, fetchUrl]);
 
-  
   return (
     <Carousel {...settings}>
-      {movieData && movieData.splice(0, 5).map(movie => {
-        return (
-          <Wrap key={movie.id}>
-            <p>{movie.title}</p>
-            <img src={`${base_url}${movie.backdrop_path}`} alt={movie.title} />
-        </Wrap>
-        )
-      })}
-
+      {movieData &&
+        movieData.splice(0, 5).map((movie) => {
+          return (
+            <Wrap key={movie.id}>
+              <p>{movie.title}</p>
+              <img
+                src={`${base_url}${movie.backdrop_path}`}
+                alt={movie.title}
+              />
+            </Wrap>
+          );
+        })}
     </Carousel>
   );
 };
@@ -55,7 +56,7 @@ const Carousel = styled(Slider)`
   }
 
   ul li button {
-    display:none;
+    display: none;
   }
 
   .slick-list {
@@ -77,28 +78,27 @@ const Wrap = styled.div`
   height: calc(100vh - 70px);
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
-  rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+    rgb(0 0 0 / 73%) 0px 16px 10px -10px;
   cursor: pointer;
   position: relative;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-    p {
-      position: absolute;
-      top: 20%;
-      left: 5%;
-      font-size: 15vh;
-      max-width: 50%;
-      font-weight: bold;
-      background: rgba(0, 0, 0, 0.5);
-      text-transform: uppercase;
-      color: white;
-      padding: 10px;
-    }
-  
+  p {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    font-size: 15vh;
+    max-width: 50%;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    color: white;
+    padding: 10px;
+  }
 `;
 
 export default ImgSlider;
