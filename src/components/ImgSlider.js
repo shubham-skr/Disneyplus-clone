@@ -124,6 +124,7 @@ const Description = styled.div`
   background: rgba(0, 0, 0, 0.7);
   color: #fff;
   padding: 20px;
+  border-radius: 5px;
 
   h1 {
     font-size: 3rem;
