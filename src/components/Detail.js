@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useFetch from '../hook/useFetch';
-import API_KEY from '../api-key';
 
 const Detail = (props) => {
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
   const { id } = useParams();
   const { movieData, fetchMovieData } = useFetch();
 
@@ -49,8 +49,8 @@ const Detail = (props) => {
               </GroupWatch>
             </Controls>
             <SubTitle>
-              {movieData.release_date}&nbsp;&nbsp; • &nbsp;&nbsp;
-              {movieData.runtime} min&nbsp;&nbsp; • &nbsp;&nbsp;
+              {movieData.release_date}&nbsp;&nbsp; <span>•</span> &nbsp;&nbsp;
+              {movieData.runtime} min&nbsp;&nbsp; <span>•</span> &nbsp;&nbsp;
               {movieData.genres.map((gen) => gen.name).join(', ')}
             </SubTitle>
             <Description>{movieData.overview}</Description>
@@ -92,6 +92,7 @@ const Background = styled.div`
 const ImageTitle = styled.div`
   margin-top: 5%;
   margin-bottom: 5%;
+  line-height: 1;
   width: 50%;
   font-size: 5rem;
   font-weight: bold;
@@ -159,12 +160,12 @@ const Player = styled.button`
 `;
 
 const Trailer = styled(Player)`
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   color: rgb(255, 255, 255);
   transition: all 250ms ease-out;
 
   &:hover {
-    background: rgba(0, 0, 0);
+    background: #000;
   }
 `;
 
@@ -225,6 +226,10 @@ const SubTitle = styled.div`
   font-size: 15px;
   min-height: 20px;
 
+  span {
+    font-size: 20px;
+  }
+
   @media (max-width: 768px) {
     font-size: 12px;
   }
@@ -236,6 +241,7 @@ const Description = styled.div`
   padding: 16px 0px;
   color: rgb(255, 255, 255);
   margin-bottom: 50px;
+  margin-top: 10px;
 
   @media (max-width: 768px) {
     font-size: 14px;

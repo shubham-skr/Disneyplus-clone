@@ -7,6 +7,7 @@ import { auth, provider } from '../firebase';
 import {
   selectUserName,
   selectUserToken,
+  selectUserIsLoggedIn,
   selectUserPhoto,
   setUserLoginDetails,
   setSignOutState,
@@ -17,6 +18,7 @@ function Header() {
   const history = useHistory();
   const userName = useSelector(selectUserName);
   const userToken = useSelector(selectUserToken);
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
   const userPhoto = useSelector(selectUserPhoto);
 
   useEffect(() => {
@@ -66,7 +68,7 @@ function Header() {
         <img src='/images/logo.svg' alt='Disney+' />
       </Logo>
 
-      {!userToken ? (
+      {!isLoggedIn ? (
         <Login onClick={handleAuth}>Login</Login>
       ) : (
         <>
@@ -85,19 +87,19 @@ function Header() {
             </a>
             <a>
               <img src='/images/original-icon.svg' alt='ORIGINALS' />
-              <span>ORIGINALS</span>
-            </a>
-            <a>
-              <img src='/images/movie-icon.svg' alt='MOVIES' />
               <span>MOVIES</span>
             </a>
             <a>
-              <img src='/images/series-icon.svg' alt='SERIES' />
+              <img src='/images/movie-icon.svg' alt='MOVIES' />
               <span>SERIES</span>
+            </a>
+            <a>
+              <img src='/images/series-icon.svg' alt='SERIES' />
+              <span>DISNEY+</span>
             </a>
           </NavMenu>
           <SignOut>
-            <UserImg src={userPhoto} alt={userName} />
+            <UserImg src={userPhoto} />
             <DropDown>
               <span onClick={handleAuth}>Sign out</span>
             </DropDown>
@@ -125,9 +127,9 @@ const Nav = styled.nav`
 
 const Logo = styled.a`
   padding: 0;
-  width: 80px;
-  margin-top: 4px;
-  max-height: 70px;
+  width: 90px;
+  margin-top: 0px;
+  max-height: 80px;
   font-size: 0;
   display: inline-block;
 
@@ -153,6 +155,7 @@ const NavMenu = styled.div`
     display: flex;
     align-items: center;
     padding: 0 12px;
+    cursor: pointer;
 
     img {
       height: 20px;
@@ -162,7 +165,7 @@ const NavMenu = styled.div`
     }
 
     span {
-      color: rgb(249, 249, 249);
+      color: #fff;
       font-size: 13px;
       letter-spacing: 1.42px;
       line-height: 1.08;
@@ -171,7 +174,7 @@ const NavMenu = styled.div`
       position: relative;
 
       &:before {
-        background-color: rgb(249, 249, 249);
+        background-color: #fff;
         border-radius: 0px 0px 4px 4px;
         bottom: -6px;
         content: '';
@@ -215,6 +218,7 @@ const Login = styled.a`
     background-color: #f9f9f9;
     color: #000;
     border-color: transparent;
+    cursor: pointer;
   }
 `;
 
@@ -232,7 +236,8 @@ const DropDown = styled.div`
   box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
   padding: 10px;
   font-size: 14px;
-  letter-spacing: 3px;
+  font-weight: bold;
+  letter-spacing: 2px;
   width: 100px;
   opacity: 0;
 `;

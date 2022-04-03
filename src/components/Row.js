@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import useFetch from '../hook/useFetch';
@@ -13,7 +13,7 @@ const Row = ({ title, fetchUrl }) => {
 
   return (
     <Container>
-      <h3>{title}</h3>
+      <h4>{title}</h4>
       <Content>
         {movieData &&
           movieData.map((movie) => (
@@ -30,13 +30,18 @@ const Row = ({ title, fetchUrl }) => {
 
 const Container = styled.div`
   padding: 0 0 26px;
+
+  h4 {
+    margin-left: 1rem;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
 `;
 
 const Content = styled.div`
   display: flex;
-  overflow-y: hidden;
   overflow-x: scroll;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 40px;
 
   &::-webkit-scrollbar {
@@ -46,7 +51,8 @@ const Content = styled.div`
 
 const Wrap = styled.div`
   min-width: 15%;
-  margin-right: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   border-radius: 10px;
   box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
     rgb(0 0 0 / 73%) 0px 16px 10px -10px;
@@ -59,13 +65,14 @@ const Wrap = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
   }
 
   &:hover {
     box-shadow: rgb(0 0 0 / 80%) 0px 40px 58px -16px,
       rgb(0 0 0 / 72%) 0px 30px 22px -10px;
-    transform: scale(1.1s);
-    border-color: rgba(249, 249, 249, 0.8);
+    border-color: #fff;
+    transform: scaleX(1.05);
   }
 `;
 

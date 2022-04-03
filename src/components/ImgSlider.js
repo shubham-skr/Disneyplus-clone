@@ -5,6 +5,28 @@ import Slider from 'react-slick';
 import useFetch from '../hook/useFetch';
 import { useEffect } from 'react';
 
+const genre = {
+  28: 'Action',
+  12: 'Adventure',
+  16: 'Animation',
+  35: 'Comedy',
+  80: 'Crime',
+  99: 'Documentary',
+  18: 'Drama',
+  10751: 'Family',
+  14: 'Fantasy',
+  36: 'History',
+  27: 'Horror',
+  10402: 'Horror',
+  9648: 'Mystery',
+  10749: 'Romance',
+  878: 'SciFi',
+  10770: 'TV Movie',
+  53: 'Thriller',
+  10752: 'War',
+  37: 'Western',
+};
+
 const ImgSlider = ({ title, fetchUrl }) => {
   const base_url = 'https://image.tmdb.org/t/p/original';
   let settings = {
@@ -28,7 +50,13 @@ const ImgSlider = ({ title, fetchUrl }) => {
         movieData.splice(0, 5).map((movie) => {
           return (
             <Wrap key={movie.id}>
-              <p>{movie.title}</p>
+              <Description>
+                <h1>{movie.title}</h1>
+                <p>IMDB - {movie.vote_average}</p>
+                <p>Genre - {genre[movie.genre_ids[0]]}</p>
+                <p>Popularity - {movie.popularity}</p>
+                <p>Vote Count - {movie.vote_count}</p>
+              </Description>
               <img
                 src={`${base_url}${movie.backdrop_path}`}
                 alt={movie.title}
@@ -41,7 +69,7 @@ const ImgSlider = ({ title, fetchUrl }) => {
 };
 
 const Carousel = styled(Slider)`
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 
   & > button {
     opacity: 0;
@@ -86,19 +114,44 @@ const Wrap = styled.div`
     height: 100%;
     object-fit: cover;
   }
+`;
+
+const Description = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  max-width: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 20px;
+
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
 
   p {
-    position: absolute;
-    top: 20%;
-    left: 5%;
-    font-size: 15vh;
-    max-width: 50%;
-    font-weight: bold;
-    background: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    color: white;
-    padding: 10px;
+    font-size: 1.2rem;
   }
 `;
 
 export default ImgSlider;
+/*
+
+p {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  font-size: 15vh;
+  max-width: 50%;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  color: white;
+  padding: 10px;
+}
+
+*/

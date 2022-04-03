@@ -1,23 +1,19 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyChZucSQrj2xWhTLbPT8x7-HFMpgprBk74',
-  authDomain: 'disneyplus-clone-4d43b.firebaseapp.com',
-  projectId: 'disneyplus-clone-4d43b',
-  storageBucket: 'disneyplus-clone-4d43b.appspot.com',
-  messagingSenderId: '304830908490',
-  appId: '1:304830908490:web:1b98d63abbc2fb7a43feb3',
-  measurementId: 'G-FVMWRM50SG',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
-const storage = getStorage();
 
-export { auth, provider, storage };
-export default db;
+export { auth, provider };
+export default app;
