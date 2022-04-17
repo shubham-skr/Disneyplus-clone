@@ -8,7 +8,6 @@
   <li>Created custom react hooks to send http request and fetch data</li>
   <li>Used redux to store auth state</li>
   <li>Created multi-page SPA with react router</li>
-  <li></li>
 </ul>
 
 <br/>
