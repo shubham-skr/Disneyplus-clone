@@ -5,7 +5,7 @@
   <li>Built with React, Redux, Styled components, Firebase and TMDB API</li>
   <li>Used firebase to provide google authentication</li>
   <li>Fetched movies data using TMDB API</li>
-  <li>Created custom react hooks to send http request and fetch data</li>
+  <li>Created custom react hook to send http request and fetch data</li>
   <li>Used redux to store auth state</li>
   <li>Created multi-page SPA with react router</li>
 </ul>
