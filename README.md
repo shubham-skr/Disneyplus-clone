@@ -1,6 +1,15 @@
 # Disneyplus-clone
 
-This website is the clone of Disney+. Built with React, Redux, Styled components, Firebase and TMDB API. It uses firebase for authentication and TMDB API to fetch movies data. 
+<ul>
+  <li>It is the clone of Disney+</li>
+  <li>Built with React, Redux, Styled components, Firebase and TMDB API</li>
+  <li>Used firebase to provide google authentication</li>
+  <li>Fetched movies data using TMDB API</li>
+  <li>Created custom react hooks to send http request and fetch data</li>
+  <li>Used redux to store auth state</li>
+  <li>Created multi-page SPA with react router</li>
+  <li></li>
+</ul>
 
 <br/>
 
@@ -15,7 +24,9 @@ https://disneyplus-clone-4d43b.web.app/
 
 #### HOME PAGE
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/79463685/163724167-ca215ae7-2bb2-48c5-b1d0-6af81d183140.png">
-<img width="945" alt="image" src="https://user-images.githubusercontent.com/79463685/163724248-8d46721f-296d-47c0-bd71-99be132c68fb.png">
+<img width="945" alt="image" src="https://user-images.githubusercontent.com/79463685/163724722-d9c13e31-e49e-4bf3-92b2-537e8b78c303.png">
+
+
 
 #### Categories
 1. Trending This Week
