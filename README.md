@@ -16,6 +16,15 @@ https://disneyplus-clone-4d43b.web.app/
 
 <br/>
 
+### Work in progress
+Replace firebase with my own REST API for authentication and managing movies data. 
+
+### REST API 
+https://github.com/shubham-skr/WatchList-API
+
+
+<br/>
+
 #### LOGIN PAGE
 <img width="960" alt="image" src="https://user-images.githubusercontent.com/79463685/163724078-65466c03-1df0-4e9d-a047-220454738cef.png">
 
